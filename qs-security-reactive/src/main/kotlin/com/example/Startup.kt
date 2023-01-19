@@ -6,10 +6,10 @@ import io.vertx.core.Vertx
 import io.vertx.kotlin.coroutines.dispatcher
 import kotlinx.coroutines.*
 import javax.annotation.PreDestroy
+import javax.enterprise.context.ApplicationScoped
 import javax.enterprise.event.Observes
-import javax.inject.Singleton
 
-@Singleton
+@ApplicationScoped
 class Startup(@Suppress("CdiInjectionPointsInspection") private val vertx: Vertx) : AutoCloseable {
   private val coroutineScope = CoroutineScope(vertx.dispatcher() + SupervisorJob())
 

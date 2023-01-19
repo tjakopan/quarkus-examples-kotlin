@@ -9,11 +9,11 @@ import io.quarkus.security.identity.request.UsernamePasswordAuthenticationReques
 import io.quarkus.security.runtime.QuarkusPrincipal
 import io.quarkus.security.runtime.QuarkusSecurityIdentity
 import io.smallrye.mutiny.Uni
+import javax.enterprise.context.ApplicationScoped
 import javax.enterprise.context.control.ActivateRequestContext
-import javax.inject.Singleton
 import javax.persistence.NonUniqueResultException
 
-@Singleton
+@ApplicationScoped
 class ReactiveIdentityProvider : IdentityProvider<UsernamePasswordAuthenticationRequest> {
   override fun getRequestType(): Class<UsernamePasswordAuthenticationRequest> =
     UsernamePasswordAuthenticationRequest::class.java

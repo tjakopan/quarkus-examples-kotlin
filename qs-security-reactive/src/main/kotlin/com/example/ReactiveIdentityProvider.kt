@@ -14,11 +14,11 @@ import io.vertx.core.Vertx
 import io.vertx.kotlin.coroutines.dispatcher
 import kotlinx.coroutines.*
 import javax.annotation.PreDestroy
+import javax.enterprise.context.ApplicationScoped
 import javax.enterprise.context.control.ActivateRequestContext
-import javax.inject.Singleton
 import javax.persistence.NonUniqueResultException
 
-@Singleton
+@ApplicationScoped
 class ReactiveIdentityProvider(@Suppress("CdiInjectionPointsInspection") vertx: Vertx) :
   IdentityProvider<UsernamePasswordAuthenticationRequest>, AutoCloseable {
   private val coroutineScope = CoroutineScope(vertx.dispatcher() + SupervisorJob())
