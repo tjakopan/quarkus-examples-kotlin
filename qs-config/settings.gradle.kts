@@ -10,4 +10,4 @@ pluginManagement {
     id(quarkusPluginId) version quarkusPluginVersion
   }
 }
-rootProject.name = "gs-config"
+rootProject.name = "qs-config"
