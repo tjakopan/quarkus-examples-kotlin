@@ -22,7 +22,6 @@ dependencies {
   implementation("io.quarkus:quarkus-arc")
   implementation("io.quarkus:quarkus-security")
   implementation("io.quarkus:quarkus-elytron-security-common")
-  implementation("io.quarkus:quarkus-smallrye-context-propagation")
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
   implementation("io.vertx:vertx-lang-kotlin-coroutines")
 
