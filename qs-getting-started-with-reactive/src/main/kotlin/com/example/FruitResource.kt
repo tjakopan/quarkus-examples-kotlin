@@ -5,6 +5,7 @@ import io.quarkus.panache.common.Sort
 import io.smallrye.mutiny.CompositeException
 import io.smallrye.mutiny.coroutines.awaitSuspending
 import org.jboss.logging.Logger
+import utilities.panache.withTransaction
 import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response

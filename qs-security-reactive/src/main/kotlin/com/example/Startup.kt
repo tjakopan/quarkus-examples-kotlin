@@ -5,6 +5,7 @@ import io.smallrye.mutiny.coroutines.awaitSuspending
 import io.vertx.core.Vertx
 import io.vertx.kotlin.coroutines.dispatcher
 import kotlinx.coroutines.*
+import utilities.panache.withTransaction
 import javax.annotation.PreDestroy
 import javax.enterprise.context.ApplicationScoped
 import javax.enterprise.event.Observes

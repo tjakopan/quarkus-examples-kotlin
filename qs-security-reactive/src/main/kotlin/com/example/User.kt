@@ -4,9 +4,11 @@ import io.quarkus.elytron.security.common.BcryptUtil
 import io.quarkus.hibernate.reactive.panache.kotlin.PanacheCompanion
 import io.quarkus.hibernate.reactive.panache.kotlin.PanacheEntity
 import io.smallrye.mutiny.coroutines.awaitSuspending
+import utilities.panache.singleResultOrNullSuspending
 import javax.persistence.Entity
 import javax.persistence.Table
 
+@Suppress("JpaDataSourceORMInspection")
 @Entity
 @Table(name = "test_user")
 class User : PanacheEntity() {
@@ -24,6 +26,6 @@ class User : PanacheEntity() {
       return user.persist<User>().awaitSuspending()
     }
 
-    suspend fun findByUsername(username: String): User? = find("username", username).singleResultOrNull()
+    suspend fun findByUsername(username: String): User? = find("username", username).singleResultOrNullSuspending()
   }
 }
