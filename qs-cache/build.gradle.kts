@@ -21,6 +21,7 @@ dependencies {
   implementation("io.quarkus:quarkus-cache")
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
   implementation("io.quarkus:quarkus-arc")
+  implementation("io.vertx:vertx-lang-kotlin-coroutines")
 
   testImplementation(kotlin("test"))
   testImplementation("io.quarkus:quarkus-junit5")
