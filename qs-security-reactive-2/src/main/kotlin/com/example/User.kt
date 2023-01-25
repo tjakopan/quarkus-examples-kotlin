@@ -4,8 +4,8 @@ import io.quarkus.elytron.security.common.BcryptUtil
 import io.quarkus.hibernate.reactive.panache.kotlin.PanacheCompanion
 import io.quarkus.hibernate.reactive.panache.kotlin.PanacheEntity
 import io.smallrye.mutiny.Uni
-import utilities.panache.singleResultOrNull
 import javax.persistence.Entity
+import javax.persistence.NoResultException
 import javax.persistence.Table
 
 @Suppress("JpaDataSourceORMInspection")
@@ -26,6 +26,7 @@ class User : PanacheEntity() {
       return user.persist()
     }
 
-    fun findByUsername(username: String): Uni<User?> = find("username", username).singleResultOrNull()
+    fun findByUsername(username: String): Uni<User?> =
+      find("username", username).singleResult().onFailure(NoResultException::class.java).recoverWithNull()
   }
 }

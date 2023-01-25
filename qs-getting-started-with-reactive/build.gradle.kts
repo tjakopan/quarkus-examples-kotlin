@@ -5,6 +5,7 @@ plugins {
 dependencies {
   implementation(project(":utilities"))
   implementation("io.quarkus:quarkus-resteasy-reactive-jackson")
+  implementation("io.quarkus:quarkus-resteasy-reactive-kotlin")
   implementation("io.quarkus:quarkus-hibernate-reactive-panache-kotlin")
   implementation("io.quarkus:quarkus-reactive-pg-client")
 

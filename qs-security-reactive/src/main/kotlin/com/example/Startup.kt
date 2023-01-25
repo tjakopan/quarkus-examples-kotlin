@@ -1,22 +1,25 @@
 package com.example
 
+import io.quarkus.logging.Log
 import io.quarkus.runtime.StartupEvent
 import io.smallrye.mutiny.coroutines.awaitSuspending
-import io.vertx.core.Vertx
-import io.vertx.kotlin.coroutines.dispatcher
-import kotlinx.coroutines.*
+import io.vertx.mutiny.core.Vertx
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
 import utilities.panache.withTransaction
+import utilities.vertx.dispatcher
 import javax.annotation.PreDestroy
 import javax.enterprise.context.ApplicationScoped
 import javax.enterprise.event.Observes
+import kotlin.coroutines.CoroutineContext
 
 @ApplicationScoped
-class Startup(@Suppress("CdiInjectionPointsInspection") private val vertx: Vertx) : AutoCloseable {
-  private val coroutineScope = CoroutineScope(vertx.dispatcher() + SupervisorJob())
+class Startup(private val vertx: Vertx) : CoroutineScope, AutoCloseable {
+  override val coroutineContext: CoroutineContext by lazy { vertx.dispatcher() + SupervisorJob() }
 
-  fun loadUsers(@Observes evt: StartupEvent): Unit = withTransaction(coroutineScope) { loadUsers() }
-
-  private suspend fun loadUsers() {
+  fun loadUsers(@Observes evt: StartupEvent): Unit = withTransaction {
+    Log.info("info")
     User.deleteAll().awaitSuspending()
     User.add("admin", "admin", "admin")
     User.add("user", "user", "user")
@@ -24,6 +27,6 @@ class Startup(@Suppress("CdiInjectionPointsInspection") private val vertx: Vertx
 
   @PreDestroy
   override fun close() {
-    coroutineScope.cancel()
+    coroutineContext.cancel()
   }
 }

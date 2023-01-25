@@ -3,6 +3,7 @@ plugins {
 }
 
 dependencies {
+  implementation(project(":utilities"))
   implementation("io.quarkus:quarkus-resteasy-reactive-jackson")
   implementation("io.quarkus:quarkus-resteasy-reactive-kotlin")
   implementation("io.quarkus:quarkus-cache")
