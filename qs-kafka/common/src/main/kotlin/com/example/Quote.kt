@@ -1,3 +1,3 @@
 package com.example
 
-data class Quote(private val id: String = "", private val price: Int = 0)
+data class Quote(val id: String = "", val price: Int = 0)
