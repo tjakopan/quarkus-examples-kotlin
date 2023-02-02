@@ -3,6 +3,7 @@ package com.example
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainAll
 import io.kotest.matchers.collections.shouldHaveSize
+import io.quarkus.test.common.http.TestHTTPResource
 import io.quarkus.test.junit.QuarkusTest
 import io.restassured.RestAssured
 import io.restassured.common.mapper.TypeRef
@@ -19,13 +20,16 @@ import kotlin.time.toJavaDuration
 
 @QuarkusTest
 class PriceTest {
+  @TestHTTPResource("/prices")
+  private lateinit var pricesSseEndpoint: String
+
   @Test
   fun test() {
     var prices = RestAssured.get("/prices/all").`as`(object : TypeRef<List<Price>>() {})
     prices.shouldBeEmpty()
 
     val webClient = ClientBuilder.newClient()
-    val webTarget = webClient.target("/prices")
+    val webTarget = webClient.target(pricesSseEndpoint)
     val receivedPrices = CopyOnWriteArrayList<Double>()
     val sseEventSource = SseEventSource.target(webTarget).build().apply {
       register { inboundSseEvent -> receivedPrices.add(inboundSseEvent.readData().toDouble()) }

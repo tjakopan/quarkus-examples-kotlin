@@ -1,10 +1,10 @@
 package com.example
 
 import io.smallrye.mutiny.Multi
-import io.smallrye.mutiny.coroutines.awaitSuspending
+import io.smallrye.mutiny.infrastructure.Infrastructure
 import org.eclipse.microprofile.reactive.messaging.Channel
 import org.jboss.resteasy.reactive.RestStreamElementType
-import utilities.panache.withTransaction
+import javax.transaction.Transactional
 import javax.ws.rs.GET
 import javax.ws.rs.Path
 import javax.ws.rs.Produces
@@ -16,20 +16,21 @@ class EmitterResource(@Channel("prices") private val prices: Multi<Double>) {
   @Path("/prices")
   @Produces(MediaType.SERVER_SENT_EVENTS)
   @RestStreamElementType(MediaType.TEXT_PLAIN)
-  suspend fun prices(): Multi<Double> = withTransaction {
-    Multi.createFrom().publisher(prices)
-      .select().first(3)
-//      .emitOn(Infrastructure.getDefaultExecutor())
+  @Transactional
+  fun prices(): Multi<Double> =
+    prices.select().first(3)
+      // Items are received from the event loop, so cannot use Hibernate ORM (classic).
+      // Switch to a worker thread, the transaction will be propagated.
+      .emitOn(Infrastructure.getDefaultExecutor())
       .map { price ->
         Price().apply {
           value = price
-          persist<Price>()
+          persist()
         }
         price
       }
-  }
 
   @GET
   @Path("/prices/all")
-  suspend fun getAllPrices(): List<Price> = Price.listAll().awaitSuspending()
+  fun getAllPrices(): List<Price> = Price.listAll()
 }
