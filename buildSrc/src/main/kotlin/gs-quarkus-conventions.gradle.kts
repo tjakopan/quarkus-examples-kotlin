@@ -11,18 +11,18 @@ repositories {
 }
 
 dependencies {
-  implementation(enforcedPlatform("io.quarkus.platform:quarkus-bom:2.16.1.Final"))
+  implementation(enforcedPlatform("io.quarkus.platform:quarkus-bom:2.16.4.Final"))
   implementation("io.quarkus:quarkus-kotlin")
   implementation("io.quarkus:quarkus-arc")
 
   testImplementation(kotlin("test"))
   testImplementation("io.quarkus:quarkus-junit5")
-  testImplementation("io.kotest:kotest-assertions-core:5.5.4")
+  testImplementation("io.kotest:kotest-assertions-core:5.5.5")
 }
 
 java {
-  sourceCompatibility = JavaVersion.VERSION_18
-  targetCompatibility = JavaVersion.VERSION_18
+  sourceCompatibility = JavaVersion.VERSION_19
+  targetCompatibility = JavaVersion.VERSION_19
 }
 
 tasks.withType<Test> {
@@ -42,7 +42,7 @@ allOpen {
 tasks.withType<KotlinCompile> {
   kotlinOptions {
     freeCompilerArgs = listOf("-Xjsr305=strict")
-    jvmTarget = JavaVersion.VERSION_18.toString()
+    jvmTarget = JavaVersion.VERSION_19.toString()
     javaParameters = true
   }
 }
